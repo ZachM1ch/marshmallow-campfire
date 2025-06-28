@@ -1,0 +1,30 @@
+<DialogueData>
+  <Character name="Terrance" color="#FFC320">
+    <PassiveLines>
+      <Line text="!Ice Cream." size="Small"></Line>
+      <Line text="!!!Ice Cream!" size="Large"></Line>
+      <Line text="!!!!!Ice Cream?" size="Small"></Line>
+    </PassiveLines>
+    <TriggeredLines>
+      <Trigger type="onHit">
+        <Line text="Hey! Watch it!" size="Normal" />
+        <Line text="I felt that!" size="Small" />
+      </Trigger>
+      <Trigger type="onQuestComplete">
+        <Line text="Well done!" size="Normal" />
+      </Trigger>
+    </TriggeredLines>
+  </Character>
+
+  <Character name="Campfire" color="#FF00A5">
+    <PassiveLines>
+      <Line text="*Fire Noises*" size="Tiny"></Line>
+      <Line text="*Louder Fire Noises*" size="Huge"></Line>
+    </PassiveLines>
+    <TriggeredLines>
+      <Trigger type="onSeeStone">
+        <Line text="That's a really pretty stone over there..." size="Small" />
+      </Trigger>
+    </TriggeredLines>
+  </Character>
+</DialogueData>
