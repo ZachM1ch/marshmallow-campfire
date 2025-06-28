@@ -19,27 +19,7 @@ public class SpeechBubble : MonoBehaviour
             dialogueText.color = textColoring;
         }
 
-        switch (size)
-        {
-            case "tiny":
-                dialogueText.fontSize = 20;
-                break;
-            case "small":
-                dialogueText.fontSize = 30;
-                break;
-            case "normal":
-                dialogueText.fontSize = 40;
-                break;
-            case "large":
-                dialogueText.fontSize = 50;
-                break;
-            case "huge":
-                dialogueText.fontSize = 60;
-                break;
-            default:
-                dialogueText.fontSize = 40;
-                break;
-        }
+        dialogueText.fontSize = TextSizes.GetSize(size);
     }
 
     IEnumerator TypeText(string text)

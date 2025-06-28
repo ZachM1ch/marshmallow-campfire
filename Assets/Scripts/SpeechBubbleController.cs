@@ -21,10 +21,10 @@ public class SpeechBubbleController : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(5f, 15f)); // Formerly speakInterval
 
-            var tuple = dialogueManager.GetNextLine(characterName);
-            string line = tuple.Item1;
-            string size = tuple.Item2;
-            string textColor = tuple.Item3;
+            var triple = dialogueManager.GetNextPassiveLine(characterName);
+            string line = triple.Item1;
+            string size = triple.Item2;
+            string textColor = triple.Item3;
 
             var bubble = Instantiate(speechBubblePrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
             bubble.GetComponent<SpeechBubble>().Initialize(line, size, transform, textColor);
