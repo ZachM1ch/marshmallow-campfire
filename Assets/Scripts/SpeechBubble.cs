@@ -2,24 +2,21 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
+using static DialogueManager;
 
 public class SpeechBubble : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
     public float typeSpeed = 0.05f;
     private Transform followTarget;
-    public Color textColoring;
 
-    public void Initialize(string text, string size, Transform follow, string textColor)
+    public void Initialize(LineData lineData, Transform follow)
     {
         followTarget = follow;
-        StartCoroutine(TypeText(text));
-        if(ColorUtility.TryParseHtmlString(textColor, out textColoring))
-        {
-            dialogueText.color = textColoring;
-        }
+        StartCoroutine(TypeText(lineData.line.Text));
+        dialogueText.color = lineData.color;
 
-        dialogueText.fontSize = TextSizes.GetSize(size);
+        dialogueText.fontSize = TextSizes.GetSize(lineData.line.Size);
     }
 
     IEnumerator TypeText(string text)

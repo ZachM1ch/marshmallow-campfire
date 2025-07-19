@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static DialogueManager;
 
 public class SpeechBubbleController : MonoBehaviour
 {
@@ -19,19 +20,62 @@ public class SpeechBubbleController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(5f, 15f)); // Formerly speakInterval
+            yield return new WaitForSeconds(Random.Range(5f, 8f)); // Formerly speakInterval
 
-            var triple = dialogueManager.GetNextPassiveLine(characterName);
-            string line = triple.Item1;
-            string size = triple.Item2;
-            string textColor = triple.Item3;
+            LineData nextLine = dialogueManager.GetNextPassiveLine(characterName);
 
             var bubble = Instantiate(speechBubblePrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
-            bubble.GetComponent<SpeechBubble>().Initialize(line, size, transform, textColor);
+            bubble.GetComponent<SpeechBubble>().Initialize(nextLine, transform);
 
             yield return new WaitForSeconds(showDuration);
 
             Destroy(bubble.gameObject);
+        }
+    }
+
+    IEnumerator TriggerSpeakRoutine(string trigger)
+    {
+        GameObject[] speechBubbles = GameObject.FindGameObjectsWithTag("SpeechBubble");
+        foreach (GameObject speechBubble in speechBubbles)
+        {
+            Destroy(speechBubble);
+        }
+
+        LineData nextLine = dialogueManager.GetTriggeredLine(characterName, trigger);
+
+        var bubble = Instantiate(speechBubblePrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
+        bubble.GetComponent<SpeechBubble>().Initialize(nextLine, transform);
+
+        yield return new WaitForSeconds(showDuration);
+
+        Destroy(bubble.gameObject);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            StartCoroutine(TriggerSpeakRoutine("onSeeStone"));
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            StartCoroutine(TriggerSpeakRoutine("onLowFuel"));
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            StartCoroutine(TriggerSpeakRoutine("onCompleteRequest"));
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StartCoroutine(TriggerSpeakRoutine("onLowAffection"));
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            StartCoroutine(TriggerSpeakRoutine("onHighAffection"));
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            StartCoroutine(TriggerSpeakRoutine("onIgnoreRequest"));
         }
     }
 }
