@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Values : MonoBehaviour
@@ -9,7 +7,7 @@ public class Values : MonoBehaviour
 }
 
 /// <summary>
-/// Class for holding and working with the Size Enum
+/// Class for holding and working with the Size Enum.
 /// </summary>
 public class TextSizes
 {
@@ -23,7 +21,7 @@ public class TextSizes
     }
 
     /// <summary>
-    /// Returns the relevant Size Enum value for a given string
+    /// Returns the relevant Size Enum value for a given string.
     /// </summary>
     /// <param name="xSize"> The size string taken from parsed XML </param>
     /// <returns> An int font size from Size Enum </returns>

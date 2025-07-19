@@ -195,6 +195,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PinkBoi
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bfa4b6d0ede6c4a4e91b60d011bed7f5, type: 3}
+      propertyPath: m_TagString
+      value: Campfire
+      objectReference: {fileID: 0}
     - target: {fileID: 3240477402697290947, guid: bfa4b6d0ede6c4a4e91b60d011bed7f5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.016

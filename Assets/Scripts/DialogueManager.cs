@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
 using UnityEngine;
-using Unity.VisualScripting;
-using System.Drawing;
 using Color = UnityEngine.Color;
 
+/// <summary>
+/// Handles all XML interactions for dialogue.
+/// </summary>
 public class DialogueManager : MonoBehaviour
 {
     [XmlRoot("DialogueData")]

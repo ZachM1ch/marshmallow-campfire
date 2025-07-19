@@ -2,6 +2,9 @@ using System.Collections;
 using UnityEngine;
 using static DialogueManager;
 
+/// <summary>
+/// Handles working with speech bubbles.
+/// </summary>
 public class SpeechBubbleController : MonoBehaviour
 {
     public string characterName;
@@ -51,31 +54,37 @@ public class SpeechBubbleController : MonoBehaviour
         Destroy(bubble.gameObject);
     }
 
+    public void StartTrigger(string trigger)
+    {
+        StartCoroutine(TriggerSpeakRoutine(trigger));
+    }
+
     private void Update()
     {
+        // Debug Testing
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            StartCoroutine(TriggerSpeakRoutine("onSeeStone"));
+            DialogueTriggers.TriggerOnSeeStone();
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            StartCoroutine(TriggerSpeakRoutine("onLowFuel"));
+            DialogueTriggers.TriggerOnLowFuel();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            StartCoroutine(TriggerSpeakRoutine("onCompleteRequest"));
+            DialogueTriggers.TriggerOnCompleteRequest();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(TriggerSpeakRoutine("onLowAffection"));
+            DialogueTriggers.TriggerOnLowAffection();
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            StartCoroutine(TriggerSpeakRoutine("onHighAffection"));
+            DialogueTriggers.TriggerOnHighAffection();
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            StartCoroutine(TriggerSpeakRoutine("onIgnoreRequest"));
+            DialogueTriggers.TriggerOnIgnoreRequest();
         }
     }
 }

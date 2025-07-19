@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using UnityEngine.Rendering;
 using static DialogueManager;
 
+/// <summary>
+/// Handles the text and position of the speech bubbles.
+/// </summary>
 public class SpeechBubble : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
@@ -13,10 +15,9 @@ public class SpeechBubble : MonoBehaviour
     public void Initialize(LineData lineData, Transform follow)
     {
         followTarget = follow;
-        StartCoroutine(TypeText(lineData.line.Text));
         dialogueText.color = lineData.color;
-
         dialogueText.fontSize = TextSizes.GetSize(lineData.line.Size);
+        StartCoroutine(TypeText(lineData.line.Text));
     }
 
     IEnumerator TypeText(string text)
