@@ -3,6 +3,8 @@ using System.Xml.Serialization;
 using System.IO;
 using UnityEngine;
 using Unity.VisualScripting;
+using System.Drawing;
+using Color = UnityEngine.Color;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -46,15 +48,70 @@ public class DialogueManager : MonoBehaviour
 
         [XmlAttribute("size")]
         public string Size;
+
+        public DialogueLine() 
+        { 
+        }
+
+        public DialogueLine(string param_text, string param_size) 
+        {
+            Text = param_text;
+            Size = param_size;
+        }
     }
 
-    // Passive lines: name => (line queue, color)
-    private Dictionary<string, (Queue<DialogueLine> passiveLines, string color)> passiveDialogueDict =
-        new Dictionary<string, (Queue<DialogueLine>, string)>();
+    public class LineData
+    {
+        public DialogueLine line;
+        public Color color;
 
-    // Triggered lines: name => (trigger type => line queue, color)
-    private Dictionary<string, (Dictionary<string, Queue<DialogueLine>> triggeredLines, string color)> triggeredDialogueDict =
-        new Dictionary<string, (Dictionary<string, Queue<DialogueLine>>, string)>();
+        public LineData(DialogueLine param_line, string param_color)
+        {
+            line = param_line;
+            color = ConvertToColor(param_color);
+        }
+
+        public LineData(DialogueLine param_line, Color param_color)
+        {
+            line = param_line;
+            color = param_color;
+        }
+
+        public LineData(string param_text, string param_size, string param_color)
+        {
+            line.Text = param_text;
+            line.Size = param_size;
+            color = ConvertToColor(param_color);
+        }
+
+        public LineData(string param_text, string param_size, Color param_color)
+        {
+            line.Text = param_text;
+            line.Size = param_size;
+            color = param_color;
+        }
+
+        public Color ConvertToColor(string param_color)
+        {
+            Color tempColor;
+            if (UnityEngine.ColorUtility.TryParseHtmlString(param_color, out tempColor))
+            {
+                return tempColor;
+            }
+            else
+            {
+                return Color.black;
+            }
+        }
+    }
+
+    // Passive lines: name => (line data)
+    private Dictionary<string, Queue<LineData>> passiveDialogueDict =
+        new Dictionary<string, Queue<LineData>>();
+
+    // Triggered lines: name => (trigger type => line data)
+    private Dictionary<string, Dictionary<string, LineData>> triggeredDialogueDict =
+        new Dictionary<string, Dictionary<string, LineData>>();
 
     void Start()
     {
@@ -72,19 +129,28 @@ public class DialogueManager : MonoBehaviour
             DialogueData data = serializer.Deserialize(reader) as DialogueData;
             foreach (var character in data.Characters)
             {
-                var passiveQueue = new Queue<DialogueLine>(character.PassiveLines);
-                passiveDialogueDict[character.Name] = (passiveQueue, character.Color);
+                // Passive Lines
+                Queue<LineData> passiveQueue = new Queue<LineData>();
+                foreach (var dialine in character.PassiveLines)
+                {
+                    passiveQueue.Enqueue(new LineData(dialine, character.Color));
+                }
+                passiveDialogueDict[character.Name] = passiveQueue;
 
-                var triggeredDict = new Dictionary<string, Queue<DialogueLine>>();
+                // Triggered Lines
+                Dictionary<string, LineData> triggeredDict = new Dictionary<string, LineData>();
                 foreach (var trigger in character.TriggeredLines)
                 {
                     if (!triggeredDict.ContainsKey(trigger.TriggerType))
                     {
-                        triggeredDict[trigger.TriggerType] = new Queue<DialogueLine>(trigger.Lines);
+                        if (trigger.Lines.Count != 0)
+                        {
+                            DialogueLine dialine = trigger.Lines[0];
+                            triggeredDict[trigger.TriggerType] = new LineData(dialine, character.Color);
+                        }
                     }
                 }
-
-                triggeredDialogueDict[character.Name] = (triggeredDict, character.Color);
+                triggeredDialogueDict[character.Name] = triggeredDict;
             }
         }
     }
@@ -94,17 +160,17 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     /// <param name="characterName">  </param>
     /// <returns>  </returns>
-    public (string, string, string) GetNextPassiveLine(string characterName)
+    public LineData GetNextPassiveLine(string characterName)
     {
         if (passiveDialogueDict.ContainsKey(characterName))
         {
-            var (queue, color) = passiveDialogueDict[characterName];
-            DialogueLine line = queue.Dequeue();
-            queue.Enqueue(line); // loop
-            return (line.Text, line.Size, color);
+            Queue<LineData> lineQueue = passiveDialogueDict[characterName];
+            LineData line = lineQueue.Dequeue();
+            lineQueue.Enqueue(line); // loop
+            return line;
         }
 
-        return ("", "normal", "#FFFFFF");
+        return new LineData("", "normal", "black");
     }
 
     /// <summary>
@@ -113,24 +179,19 @@ public class DialogueManager : MonoBehaviour
     /// <param name="characterName">  </param>
     /// <param name="trigger">  </param>
     /// <returns>  </returns>
-    public (string, string, string) GetTriggeredLine(string characterName, string trigger)
+    public LineData GetTriggeredLine(string characterName, string trigger)
     {
         if (triggeredDialogueDict.ContainsKey(characterName))
         {
-            var (triggerDict, color) = triggeredDialogueDict[characterName];
+            Dictionary<string, LineData> triggerDict = triggeredDialogueDict[characterName];
             if (triggerDict.ContainsKey(trigger))
             {
-                var queue = triggerDict[trigger];
-                if (queue.Count > 0)
-                {
-                    DialogueLine line = queue.Dequeue();
-                    queue.Enqueue(line); // loop
-                    return (line.Text, line.Size, color);
-                }
+                LineData lineData = triggerDict[trigger];
+                return (lineData);
             }
         }
 
-        return ("", "normal", "#FFFFFF");
+        return new LineData("", "normal", "black");
     }
 
 }

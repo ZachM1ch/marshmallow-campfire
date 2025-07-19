@@ -5,15 +5,6 @@
       <Line text="!!!Ice Cream!" size="Large"></Line>
       <Line text="!!!!!Ice Cream?" size="Small"></Line>
     </PassiveLines>
-    <TriggeredLines>
-      <Trigger type="onHit">
-        <Line text="Hey! Watch it!" size="Normal" />
-        <Line text="I felt that!" size="Small" />
-      </Trigger>
-      <Trigger type="onQuestComplete">
-        <Line text="Well done!" size="Normal" />
-      </Trigger>
-    </TriggeredLines>
   </Character>
 
   <Character name="Campfire" color="#FF00A5">
@@ -23,7 +14,22 @@
     </PassiveLines>
     <TriggeredLines>
       <Trigger type="onSeeStone">
-        <Line text="That's a really pretty stone over there..." size="Small" />
+        <Line text="That's a really pretty stone over there..." size="Small"/>
+      </Trigger>
+      <Trigger type="onLowFuel">
+        <Line text="It's getting kind of cold back here..." size="Small"/>
+      </Trigger>
+      <Trigger type="onCompleteRequest">
+        <Line text="Thank you!" size="Small"/>
+      </Trigger>
+      <Trigger type="onLowAffection">
+        <Line text="Thanks..." size="Small"/>
+      </Trigger>
+      <Trigger type="onHighAffection">
+        <Line text="Thank you so much!!" size="Small"/>
+      </Trigger>
+      <Trigger type="onIgnoreRequest">
+        <Line text="Oh... okay..." size="Small"/>
       </Trigger>
     </TriggeredLines>
   </Character>
