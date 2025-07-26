@@ -183,8 +183,9 @@ GameObject:
   - component: {fileID: 1548803299299454554}
   - component: {fileID: 3656539040088517963}
   - component: {fileID: 456516063595726944}
+  - component: {fileID: 3931629088438899614}
   m_Layer: 0
-  m_Name: Tile
+  m_Name: Node
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,6 +241,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234298ef2cbbd4948a1eda3036687425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3931629088438899614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5748582996169052693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 691d5e9ad2a8a09428befd4bb895f238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coords: {x: 0, y: 0}
+  isWalkable: 1
+  walkableColor: {fileID: 2100000, guid: 633d96856e12f474a8cd3e975195dc92, type: 2}
+  unwalkableColor: {fileID: 2100000, guid: 0740e02e00dfbbc49a6f5f7ea30bc0a0, type: 2}
 --- !u!1 &9061202357093170260
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,7 +318,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0740e02e00dfbbc49a6f5f7ea30bc0a0, type: 2}
+  - {fileID: 2100000, guid: 633d96856e12f474a8cd3e975195dc92, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

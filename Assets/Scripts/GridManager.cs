@@ -7,14 +7,12 @@ public class GridManager : MonoBehaviour
     [SerializeField] Vector2Int gridSize;
     [SerializeField] int unityGridSize;
     [SerializeField] GameObject tilePrefab;
-    [SerializeField] Material walkableColor;
-    [SerializeField] Material obstructedColor;
 
 
     public int UnityGridSize { get { return unityGridSize; } }
 
-    Dictionary<Vector2Int, Node> grid = new Dictionary<Vector2Int, Node>();
-    Dictionary<Vector2Int, Node> Grid { get { return grid; } }
+    Dictionary<Vector2Int, GameObject> grid = new Dictionary<Vector2Int, GameObject>();
+    public Dictionary<Vector2Int, GameObject> Grid { get { return grid; } }
 
     private void Awake()
     {
@@ -24,17 +22,16 @@ public class GridManager : MonoBehaviour
             {
                 float walkChance = Random.Range(0.0f, 1.0f);
                 bool walkable = false;
-                Material color = obstructedColor;
 
                 Vector2Int coords = new Vector2Int(x, y);
 
-                if (walkChance > 0.25f)
+                if ((x == 0 && y == 0) || walkChance > 0.25f)
                 {
                     walkable = true;
-                    color = walkableColor;
                 }
 
-                grid.Add(coords, new Node(tilePrefab, coords, walkable, color));
+                grid.Add(coords, Instantiate(tilePrefab, new Vector3(coords.x, 0f, coords.y), Quaternion.identity));
+                grid[coords].GetComponent<Node>().isWalkable = walkable;
             }
         }
     }

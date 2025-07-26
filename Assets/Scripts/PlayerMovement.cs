@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
     float moveSpeed = 5.0f;
     [SerializeField]
     Transform movePoint;
+    [SerializeField]
+    GridManager gridManager;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,18 +26,23 @@ public class PlayerMovement : MonoBehaviour
 
         if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
         {
-
+            Vector2Int moveDir = new Vector2Int(0, 0);
             if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
             {
-                movePoint.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+                moveDir += new Vector2Int((int)Input.GetAxisRaw("Horizontal"), 0);
             }
 
             if (Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
             {
-                movePoint.position += new Vector3(0f, 0f, Input.GetAxisRaw("Vertical"));
+               moveDir += new Vector2Int(0, (int)Input.GetAxisRaw("Vertical"));
             }
 
-        }
+            Vector2Int newCoord = new Vector2Int((int)movePoint.position.x + moveDir.x, (int)movePoint.position.z + moveDir.y);
 
+            if (gridManager.Grid.ContainsKey(newCoord) && gridManager.Grid[newCoord].GetComponent<Node>().isWalkable)
+            {
+                movePoint.position += new Vector3(moveDir.x, 0f, moveDir.y);
+            }
+        }
     }
 }
