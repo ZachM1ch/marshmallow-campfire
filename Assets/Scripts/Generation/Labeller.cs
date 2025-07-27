@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-[ExecuteAlways]
 public class Labeller : MonoBehaviour
 {
     TextMeshPro label;
@@ -17,11 +16,6 @@ public class Labeller : MonoBehaviour
         label = GetComponentInChildren<TextMeshPro>();
 
         DisplayCoords();
-    }
-
-    private void Update()
-    {
-        DisplayCoords();
         transform.name = coords.ToString();
     }
 
@@ -30,8 +24,8 @@ public class Labeller : MonoBehaviour
         if (!gridManager)  
             return;
 
-        coords.x = Mathf.RoundToInt(transform.position.x / gridManager.UnityGridSize);
-        coords.y = Mathf.RoundToInt(transform.position.z / gridManager.UnityGridSize);
+        coords.x = Mathf.RoundToInt(transform.position.x);
+        coords.y = Mathf.RoundToInt(transform.position.z);
 
         if(label)
             label.text = $"({coords.x}, {coords.y})";

@@ -16,9 +16,15 @@ public class Tile : MonoBehaviour
         TILE_COUNT
     };
 
+    public Node[] nodes;
 
     public Tile[] upNeighbors;
     public Tile[] rightNeighbors;
     public Tile[] downNeighbors;
     public Tile[] leftNeighbors;
+
+    private void Awake()
+    {
+        nodes = GetComponentsInChildren<Node>();
+    }
 }

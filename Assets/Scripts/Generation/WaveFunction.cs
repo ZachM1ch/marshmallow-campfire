@@ -6,29 +6,31 @@ using UnityEngine;
 
 public class WaveFunction : MonoBehaviour
 {
-    public int gridWidth;
-    public int gridHeight;
-    public Tile[] tileObjects;
     public List<Cell> gridComponents;
-    public Cell cellObj;
 
-    int iter = 0;
+    private GridManager gridManager;
+    private Tile[] tileObjects;
+    private int iter = 0;
+    private int gridWidth;
+    private int gridHeight;
 
-    private void Awake()
+    public void Initialize(int width, int height, GridManager gridMan, Tile[] tiles)
     {
         gridComponents = new List<Cell>();
-        gridWidth *= 3;
-        gridHeight *= 3;
-        InitializeGrid();
+        gridManager = gridMan;
+        tileObjects = tiles;
+
+        gridWidth = width * 3;
+        gridHeight = height * 3;
     }
 
-    void InitializeGrid()
+    public void InitializeGrid()
     {
         for (int z = 0; z < gridHeight; z += 3)
         {
             for (int x = 0; x < gridWidth; x += 3)
             {
-                Cell newCell = Instantiate(cellObj, new Vector3(x, 0f, z), Quaternion.identity, gameObject.transform);
+                Cell newCell = Instantiate(gridManager.cellObj, new Vector3(x, 0f, z), Quaternion.identity, gridManager.gameObject.transform);
                 newCell.CreateCell(false, tileObjects.ToList<Tile>());
                 gridComponents.Add(newCell);
             }
@@ -71,8 +73,6 @@ public class WaveFunction : MonoBehaviour
 
     void CollapseCell(List<Cell> tempGrid)
     {
-        //int randIdx = UnityEngine.Random.Range(0, tempGrid.Count);
-
         Cell cellToCollapse = tempGrid[0];
 
         cellToCollapse.collapsed = true;
@@ -81,7 +81,7 @@ public class WaveFunction : MonoBehaviour
         cellToCollapse.tileOptions = new List<Tile>() { selectedTile };
 
         Tile foundTile = cellToCollapse.tileOptions[0];
-        Instantiate(foundTile, cellToCollapse.transform.position, Quaternion.identity, cellToCollapse.transform);
+        gridManager.AddTile(Instantiate(foundTile, cellToCollapse.transform.position, Quaternion.identity, cellToCollapse.transform));
 
         UpdateGeneration();
     }

@@ -53,6 +53,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58476c18a912ba44d8038c2c03a73440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   upNeighbors:
   - {fileID: 5769364700896502092}
   - {fileID: -4389612501336745193, guid: bac9d89aeba4349498b233ddee7aadd0, type: 3}
