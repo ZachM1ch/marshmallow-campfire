@@ -21,24 +21,43 @@ public class WaveFunction : MonoBehaviour
         tileObjects = tiles;
 
         gridWidth = width * 3;
-        gridHeight = height * 3;
+        gridHeight = height * 3; 
+
     }
 
     public void InitializeGrid()
     {
+        List<Tile> clearTile = new List<Tile>(1) { tileObjects[(int)Tile.TILE_TYPES.TILE_CLEAR] };
+
+        // create a start and end point
+        int startPointZ = (int) Math.Ceiling(UnityEngine.Random.Range(0, gridHeight) / 3f) * 3;
+        
+        Cell startCell = Instantiate(gridManager.cellObj, new Vector3(0, 0f, startPointZ), Quaternion.identity, gridManager.gameObject.transform);
+        startCell.gameObject.name = "StartCell";
+        startCell.CreateCell(false, clearTile);
+        gridComponents.Add(startCell);
+
+        int endPointZ = (int)Math.Ceiling(UnityEngine.Random.Range(0, gridHeight) / 3f) * 3;
+
+        Cell endCell = Instantiate(gridManager.cellObj, new Vector3(gridWidth - 3, 0f, endPointZ), Quaternion.identity, gridManager.gameObject.transform);
+        endCell.gameObject.name = "EndCell";
+        endCell.CreateCell(false, clearTile);
+        gridComponents.Add(endCell);
+
         for (int z = 0; z < gridHeight; z += 3)
         {
             for (int x = 0; x < gridWidth; x += 3)
-            {
+            {   
+                // dont recreate the start and end cell
+                if((x == 0 && z == startPointZ) || (x == gridWidth - 3 && z == endPointZ))
+                    continue;
+
                 Cell newCell = Instantiate(gridManager.cellObj, new Vector3(x, 0f, z), Quaternion.identity, gridManager.gameObject.transform);
                 newCell.CreateCell(false, tileObjects.ToList<Tile>());
+
                 gridComponents.Add(newCell);
             }
         }
-
-        gridComponents[0].ClearTileOptions();
-
-        gridComponents[0].AddTileOption(tileObjects[0]);
 
         StartCoroutine(CheckEntropy());
     }
