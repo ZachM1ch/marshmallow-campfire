@@ -30,12 +30,14 @@ public class WaveFunction : MonoBehaviour
         List<Tile> clearTile = new List<Tile>(1) { tileObjects[(int)Tile.TILE_TYPES.TILE_CLEAR] };
 
         // create a start and end point
-        int startPointZ = (int) Math.Ceiling(UnityEngine.Random.Range(0, gridHeight) / 3f) * 3;
+        int startPointZ = (int) Math.Ceiling(UnityEngine.Random.Range(0f, gridHeight) / 3f) * 3;
         
-        Cell startCell = Instantiate(gridManager.cellObj, new Vector3(0, 0f, startPointZ), Quaternion.identity, gridManager.gameObject.transform);
+        Cell startCell = Instantiate(gridManager.cellObj, new Vector3(0f, 0f, startPointZ), Quaternion.identity, gridManager.gameObject.transform);
         startCell.gameObject.name = "StartCell";
         startCell.CreateCell(false, clearTile);
         gridComponents.Add(startCell);
+
+        gridManager.SetPlayerStartPoint(startCell.transform.position);
 
         int endPointZ = (int)Math.Ceiling(UnityEngine.Random.Range(0, gridHeight) / 3f) * 3;
 
@@ -219,6 +221,10 @@ public class WaveFunction : MonoBehaviour
         if (iter < arrayDimensionsWidth * arrayDimensionsHeight)
         {
             StartCoroutine(CheckEntropy());
+        }
+        else
+        {
+            gridManager.SpawnPlayer();
         }
     }
 

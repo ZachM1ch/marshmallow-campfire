@@ -17,6 +17,9 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         movePoint.parent = null;
+
+        gridManager = FindObjectOfType<GridManager>();
+
     }
 
     // Update is called once per frame

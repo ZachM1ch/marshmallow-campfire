@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,17 +13,17 @@ public class GridManager : MonoBehaviour
     public Dictionary<Vector2Int, GameObject> Grid { get { return gridOfNodes; } }
     public Tile[] tileObjects;
     public Cell cellObj;
-
+    
+    public GameObject playerPrefab;
+    
+    private Vector3Int playerStartPoint;
 
     private void Awake()
     {
         generator = gameObject.AddComponent<WaveFunction>();
         generator.Initialize(gridWidth, gridHeight, this, tileObjects);
-        
-
         generator.InitializeGrid();
     }
-
 
     public void AddTile(Tile tile)
     {
@@ -33,5 +34,17 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public void SetPlayerStartPoint(Vector3 startPoint)
+    {
+        playerStartPoint.x = (int)startPoint.x;
+        playerStartPoint.y = (int)startPoint.y+1;
+        playerStartPoint.z = (int)startPoint.z;
+    }
+
+
+    public void SpawnPlayer()
+    {
+        Instantiate(playerPrefab, playerStartPoint, Quaternion.identity);
+    }
 
 }
