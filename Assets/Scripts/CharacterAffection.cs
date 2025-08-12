@@ -14,7 +14,7 @@ public class CharacterAffection : MonoBehaviour
         affectionProfile = new AffectionProfile();
     }
 
-    public void RetrievedItem(System.Object item) //Item item)
+    public void RetrievedItem(ObtainableItem item)
     {
         affectionProfile.RetrievedItem(item);
     }    

@@ -20,17 +20,39 @@ public class AffectionProfile
     public int StepsWithBadItemsNear => stepsWithBadItemsNear;
 
 
-    public void RetrievedItem(System.Object item) //Item item)
+    public void RetrievedItem(ObtainableItem item)
     {
         int amount = CalculateAffectionChange(item);
         RaiseAffection(amount);
         likedItemsRetrieved++;
     }
 
-    private int CalculateAffectionChange(System.Object item) //Item item)
+    private int CalculateAffectionChange(ObtainableItem item)
     {
-        // Placeholder logic
-        return 1; // item.IsSpecial ? 10 : 2;
+        int affectionAmount = 0;
+
+        if (item.IsSpecial)
+        {
+            affectionAmount += 50;
+        }
+        if (item.IsBurnable)
+        {
+            affectionAmount += 10;
+        }
+        if (item.IsTrash)
+        {
+            affectionAmount += 10;
+        }
+        if (item.IsWet)
+        {
+            affectionAmount += -15;
+        }
+        if (item.IsSoaked)
+        {
+            affectionAmount += -20;
+        }
+
+        return affectionAmount;
     }
 
     private void RaiseAffection(int amount)
